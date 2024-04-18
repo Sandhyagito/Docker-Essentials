@@ -1,0 +1,501 @@
+What is the use of Docker in simple words?
+
+Docker is an open source platform that enables developers to build, deploy, run, update and manage containers
+
+—standardized, executable components that combine application source code with the operating system (OS) libraries and dependencies required to run that code in any environment.
+
+
+docker is a service which helps to run containers
+
+docker is an operating system for containers
+
+linux base
+
+name space(isolated portion/seperate server) - RAM, HDD, control group - can run multiple apps in one server
+
+docker is a container engine
+
+cntainer is an app
+
+container is like a virtual machine but it dont have own OS
+
+are lightweight packages of s/w that contain all of the nesscessary elements to run in any environment
+
+ex: Gmail, drive
+
+******************************************************************
+
+A docker is a runtime engine where the base OS, Code, COnfig those are bundled a as one package, to run the app in any environemnt.
+
+there will be no compatability issues & container can run in any environment irrespective of which OS is running on.
+
+A docker container is a docker image which is in running satte
+A docker image is an executable s/w package which it includes everything to run an app i.e Base OS, Code & Config to run an app in any environment.
+
+started with tradiotional server - one app, one server
+disad: resurce utilization is very low
+
+then had an idea of running multiple machines on one single server but there had several issues
+
+also can be called running instance of docker image.
+
+Traditional server:::
+
+security is low since it is an shared OS, there is a chance the hack the OS
+
+bootup time is high
+
+performance is poor
+
+VIRTUALIZATION:
+
+Main diff b/w traditio & Virtualization = Entire OS is present in the VM
+VM is completely isolated & there is no dependency on another VM
+
+ad:
+
+Better resource utilization - Multiple VMs can run
+Security is high
+Multiple OS can run in a single server
+Boot up time is low(Entire OS)
+resource management - blocking of resources(unsed resources cannot be used by other VMs)
+Therefore Resource Mnaagemnet is not good as compared to Container
+
+CONTAINER:::
+
+Saclibility is even faster
+Bootup time is in sec
+bootup time is very low
+portable
+light weight( small package of OS)
+resource utilization
+security 
+resource management(Limiting resources)unsed resources can be used by other containers
+
+2 types of Hypervisor
+
+Type 2/hosted - host OS
+Type 1/Bare metal - directlty running on server
+
+docker create - docker container will be created.
+
+docker pull Nginx
+docker create ImageID
+docker start containerID
+
+directly to run the container = docker run imagename
+
+custom tcp anywhere port range 8080-8090
+
+docker --version
+
+lab 1: installing docker
+lab2 :
+:~$ sudo su
+cd
+:~# docker pull alpine or docker pull alpine:latest
+
+docker images
+
+docker ps -a
+shows all the containers running or not
+
+docker create imgid
+craete a container
+
+docker ps -a
+
+docker ps( cont running state)
+
+docker start contid
+
+alpine - to get into the shell & exit. docker can perform 2 things. task & process
+
+task is automatically exited/terminated once the task is done.
+
+Process keeps running until we manually stops it.
+
+Nginx - 
+docker run nginx (run : pull, create & start)
+
+docker ps -a
+
+docker exec
+
+primary shell - If we com out of primary shell, the container which is running in primary shell gets killed or terminated.
+
+ctrl+p+q = safely exit
+
+secondary shell - when we exit, just comes out of shell cmd prompt, i.e ubuntu@ipaddress
+
+If we com out of primary shell, the container which is running in primary shell gets killed or terminated. when we exit in secondary shell,we just get out of the shell and when we give docker ps, the container is running. 
+
+
+docker run -it --name ct1 nginx
+-it is interactive terminal
+
+exit
+
+docker ps -a
+docker ps (no containers since exited from primary process)
+
+:~# docker exec -it contname sh/bash
+error response: cont is not running
+
+start the exited container - docker start contid
+
+docker exec -it ct1 sh
+# exit
+
+back to cmd prompt
+
+docker ps 
+the container is still running since we came out from sec shell
+
+docker run -it --name ct3 httpd
+exit/ctrl+c
+
+back to cmd prompt
+
+docker ps -a
+docker ps
+
+docker start contid
+
+docker ps
+
+docker stop contid
+
+docker exec contid sh (asking to get into the sec shell of containerid)
+error response: cont not running state
+
+docker start contid
+
+docker exec -it ct1 sh
+(cont1 already created and just getting into shell of cont)
+
+#exit
+
+back to cmd promt
+
+docker ps (container is running)
+
+primary - docker run -it --name cont0 ubuntu
+sec     - docker exec -it cont0 sh
+
+>>>>>>
+feature of alphine - get into the shell & exit
+terminated
+
+task - once work is done, automatically, it gets excited
+process- continouls running until stop
+
+Nginx - 
+
+primary shell - docker run -it --name cont4 ubuntu
+root@cont4id:/# exit
+root@ip4344: docker ps
+docker run -it --name cont5 ubuntu
+crtl+p+q
+
+secondary shell - exec -it
+docker exec -it --name cont5 sh
+exit
+docker ps
+
+if con already created
+docker exec -it cont12 sh
+
+CLI obj     verb option ImageID/cont id CMD aug
+doc img/con pcs  name   ...             ping goog.com
+
+{
+docker pull alphine
+docker create imgid
+docker start contid
+
+docker run -it --name cont12 ubuntu
+}
+
+pull, create, start & get into the primary shell
+
+
+=============================================
+
+get into the shell already created, primary shell
+
+docker attach contid
+
+sec shell
+
+docker exec -it contid sh
+
+task 2
+
+docker run hello-world
+docker pull ubuntu
+docker image ls
+docker run -it --name ct1 ubuntu
+touch f1 f2 f3
+ls
+exit
+docker ps
+docker ps -a
+docker run -it --name ct2 ubuntu
+Press Crtl+P+Q to switch the terminal to Docker Host.
+docker ps
+docker exec -it ct2 /bin/sh
+exit
+docker ps
+docker attach ct2
+exit
+docker ps
+docker ps -a
+
+PORT MAPPING
+
+directing the traffic from 1 to another port
+
+why?
+
+task 3
+
+
+-d - dettached mode
+-p - publish
+
+docker run -d -p 80:80 httpd
+docker ps
+docker exec -it replace container id/name /bin/bash
+exit
+docker ps
+docker exec -it replace container id/name /bin/bash
+kill 1
+docker ps -a
+docker container stop replace container id/name
+docker container rm  replace container id/name
+docker image ls
+docker image rm replace image id
+
+
+container already created
+docker run imgid
+
+task 3
+
+docker pull httpd
+docker image ls
+docker image history httpd
+docker container create httpd
+docker container ls -a
+docker container start <replace container id/name>
+docker container ls
+docker container stop <replace container id/Name>
+docker container ls -a
+docker container start <replace container id/Name>
+docker container pause <replace container id/Name>
+docker container ls -a
+docker container unpause <replace container id/Name>
+docker container ls -a
+docker exec -it <replace container id/name> bash
+cd htdocs
+apt update && apt install wget -y
+rm index.html
+wget https://s3.ap-south-1.amazonaws.com/files.cloudthat.training/devops/docker-essentials/index.html
+exit
+docker commit <replace container id/name> myhttpd:version1
+docker image ls
+docker run -d -p 8080:80 myhttpd:version1
+curl <public IP>:8080
+docker container ls
+docker logs <replace container id/name>
+docker container ls
+docker stop <replace container id/name>
+docker container rm <replace container id/name>
+docker image ls
+docker image rm <replace image id/name >
+docker image ls
+docker image ls -a
+docker stats <replace container id/name>
+docker rm $(docker ps -a -q)
+docker images -q | xargs docker rmi -f
+
+Bind Mount
+
+Source loc can be anywhere (modify the source loc, Flexibility)
+
+
+LAb 3
+
+mkdir /home/ubuntu/share
+echo 'Hello From Docker Host' > /home/ubuntu/share/index.html
+docker run -it -- name container1 -p 80:80 -v /home/ubuntu/share:/var/www/html ubuntu:18.04 /bin/bash
+apt-get update && apt-get install apache2 -y
+service apache2 start
+service apache2 status
+echo 'Hello From Container1' > /var/www/html/index.html
+Press Ctrl+P+Q, to switch back to Host
+docker run -it -- name container2 -v /home/ubuntu/share:/var/www/html ubuntu:18.04
+
+exit
+docker ps -a
+docker rm -vf container1 container2
+
+whatever chnages in container 1, reflected in source loc,
+whatever chnages in container 2, reflected in source loc,
+whatever chnages in source lo, reflected in containesrs.
+
+
+[8:24 PM] Sireesh G
+docker volume create ct-volume1
+
+docker volume ls
+
+docker volume inspect ct-volume1
+
+docker run -d -p 80:80 --name=nginx-container --mount src=ct-volume1,dst=/usr/share/nginx/html nginx
+
+docker container inspect nginx-container
+[8:24 PM] Sireesh G
+cd /var/lib/docker/volumes/ct-volume1/_data/ 
+
+touch f1 f2 f3
+
+vi /var/lib/docker/volumes/ct-volume1/_data/index.html
+
+docker container stop nginx-container
+
+docker rm container nginx-container
+
+docker ps -a
+
+docker run -it --name busybox-container1 --mount source=ct-volume1,target=/data busybox sh
+
+cd /data
+
+ls
+
+exit
+[8:25 PM] Sireesh G
+docker stop busybox-container1
+
+docker rm busybox-container1
+
+docker ps -a
+
+docker volume ls
+
+================
+
+TMpfs - stateless app
+
+*performance
+*mathematical calculation
+*sensitive data
+
+
+docker run -d --name tmpmount --mount type=tmpfs,destination=/app nginx:latest
+docker container inspect tmpmount
+docker exec -it tmpmount bash
+cd /app
+touch abc.txt
+ls
+exit
+docker stop tmpmount
+docker start tmpmount
+cd /app
+ls
+
+
+Containers connceted on same n/w
+
+docker network ls
+
+docker network create --driver bridge ct-bridge1
+
+docker network inspect ct-bridge1
+
+docker network ls
+
+docker run -it --network ct-bridge1 --name=ct-c1 busybox
+
+Press Ctrl+P+Q
+
+docker run -it --network ct-bridge1 --name=ct-c2 busybox
+
+Press Ctrl+P+Q
+
+docker network inspect ct-bridge1
+
+docker ps
+
+docker attach ct-c2
+
+ip addr
+
+ping -c 5 ct-c1
+
+Press Ctrl+P+Q
+
+Containers connceted on diff n/w
+
+Task 2:
+ 
+docker network create --driver bridge ct-bridge2
+docker run -it --network ct-bridge2 --name=ct-c3 busybox
+Press Ctrl+P+Q
+docker run -it --network ct-bridge2 --name=ct-c4 busybox
+Press Ctrl+P+Q
+docker attach ct-c4
+ping -c 5 ct-c3
+ping -c 5 ct-c1
+ping -c 5 ct-c2
+Press Ctrl+P+Q
+ 
+Task 3:
+ 
+docker network ls
+docker network connect ct-bridge2 ct-c1
+docker network inspect ct-bridge2
+docker attach ct-c1
+ping -c 5 ct-c4
+ 
+Task 4: host n/w (port mapping, need to mention port)
+ 
+docker run -it --network host --name=ct-c5 busybox
+Press Ctrl+P+Q
+docker network inspect host
+
+
+================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
